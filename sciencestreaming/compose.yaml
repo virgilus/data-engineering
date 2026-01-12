@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: sciencestreaming_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: azerty
+      MYSQL_DATABASE: sciencestreaming
+    volumes:
+      - ./data/compressed/sciencestreaming.sql.gz:/docker-entrypoint-initdb.d/sciencestreaming.sql.gz
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: sciencestreaming_pma
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: azerty
+    depends_on:
+      - db
